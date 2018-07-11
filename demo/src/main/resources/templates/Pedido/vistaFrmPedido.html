@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8" />
+<title>Creando/Modificando Pedido</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<form th:action="@{/pedido/agregarpedido}" th:object="${mdlpedido}"
+			method="post">
+
+			<div class="form-row align-items-center">
+
+				<div class="col-md-2">
+					<label class="col-form-label ">Nro Documento
+						Cliente(RUC/DNI)</label>
+				</div>
+				<div class="col-md-2">
+					<input type="text" class="form-control" placeholder="00000000"
+						id="NumeroDocumento" name="NumeroDocumento" />
+				</div>
+				<div class="col-md-8">
+					<button type="button" class="btn btn-success"
+						onclick="BuscarClientexNroDocumento()">Buscar</button>
+					<button type="button" class="btn btn-secondary">Nuevo</button>
+					<button type="button" class="btn btn-danger"
+						onclick="LimpiarDato()">Limpiar</button>
+				</div>
+			</div>
+
+
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label for="inputCity">Fecha</label> <input type="text"
+						class="form-control"
+						th:value="${#calendars.format(#calendars.createNow(), 'dd MMMM yyyy')}" />
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputState">Comprobante</label> <select
+						class="form-control">
+						<option>Boleta</option>
+						<option>Factura</option>
+					</select>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputState">Pago</label> <select class="form-control">
+						<option>Contado</option>
+						<option>Credito</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="inputZip">Correlativo</label> <input type="text"
+						class="form-control" readonly=""></input>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="inputCity">Nombre</label> <input type="text"
+						id="nombrecliente" name="nombre" class="form-control" />
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputState">Direccion</label> <input type="text"
+						id="direccionCliente" class="form-control" />
+				</div>
+				<div class="form-group col-md-2">
+					<label for="inputZip">Tipo</label> <input type="text"
+						id="tipoCliente" class="form-control" />
+				</div>
+			</div>
+
+			<table class="table table-borderless">
+				<thead>
+					<tr>
+						<th scope="col">Almacen</th>
+						<th scope="col">Codigo Producto</th>
+						<th scope="col">Disponibilidad</th>
+						<th scope="col">Descripcion</th>
+						<th scope="col">Cantidad</th>
+						<th scope="col">Precio Venta</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row"><select class="form-control"
+							id="listaalmacenes">
+								<option th:each="a: ${almacenes}" th:value="${a.AlmacenId}"
+									th:text="${a.AlmacenNombre}"></option>
+						</select></th>
+
+						<td><input type="text" class="form-control"
+							id="codigoproducto" /> <!-- 							<span class="fas fa-search" data-toggle="modal" data-target="#exampleModal"></span> -->
+						</td>
+						<td><input type="text" class="form-control"
+							id="cantidaddisponible" readonly="true" /></td>
+						<td><input type="text" class="form-control"
+							id="ProductoDescripcion" /></td>
+						<td><input type="text" class="form-control"
+							id="ProductoCantidad" value="0" /></td>
+						<td><input type="text" class="form-control"
+							id="ProductoPrecioVenta" /></td>
+						<td><i class="fas fa-plus-circle fa-2x"
+							onclick="AgregarProductoaPedido()"></i></td>
+						<td><i class="fas fa-broom fa-2x" onclick="LimpiarBusqueda()"></i></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div th:fragment="listaPedidos">
+				<div id="tabladetalle">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Accion</th>
+								<th scope="col">Codigo</th>
+								<th scope="col">Nombre</th>
+								<th scope="col">Cantidad</th>
+								<th scope="col">PrecioVenta</th>
+								<th scope="col">Subtotal</th>
+
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr th:each="item :${listaPedidos}">
+								<td>
+									<!-- 								<a --> <!-- 									th:href="@{http://localhost:8080/pedido/EliminarElementoPedido?iddetallePedido=__${item.codigoDetallePedido}__}"> -->
+									<button type="button" class="btn btn-danger"
+										onclick="EliminarItemPedido(this.value)"
+										th:value="__${item.codigoDetallePedido}__">Eliminar</button> <!-- 								</a> -->
+								</td>
+								<td th:text="${item.codigoDetallePedido}" />
+								<td th:text="${item.Producto.ProductoDescripcion}" />
+								<td th:text="${item.cantidadPedido}" />
+								<td th:text="${item.precioVenta}" />
+								<td th:text="${#numbers.formatDecimal(item.precioTotal,0,2)}" />
+<!-- 								 <p th:with="pagoTotal=${pagoTotal *3}"> </p>   -->
+
+									<!-- 								<p th:with="pagoTotal=${#aggregates.sum(listaPedidos.![precioTotal])}" /> -->
+								
+							
+<!-- 								<p th:text="${pagoTotal}"></p> -->
+							</tr>
+							
+						</tbody>
+						
+					</table>
+					<div class="form-row">
+					<h2>
+<label class="font-weight-bold">Total :</label>
+			
+				<b th:text="${pagoTotal}" />
+				</h2>
+				</div>
+				</div>
+				
+			</div>
+			<div class="container col-xs-2">
+				<button type="submit" class="btn btn-primary">Aceptar</button>
+<!-- 				<a th:href="@{http://localhost:8080/pedido/cancelar}"> -->
+					<button type="button" class="btn btn-primary"
+					onclick="listarpedido()">Recargar</button>
+<!-- 				</a> -->
+
+			</div>
+
+		</form>
+		<br />
+
+
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Mensaje</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div id="contenidoModal"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<!-- 						<button type="button" class="btn btn-primary">Aceptar</button> -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+	</div>
+
+
+
+
+
+
+
+</body>
+</html>

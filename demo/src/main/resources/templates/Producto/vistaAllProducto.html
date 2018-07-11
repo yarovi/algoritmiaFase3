@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8"/>
+<title>Listando Prodcutos 2018</title>
+<link rel="icon" th:href="@{/img/favicon.ico}"/>
+</head>
+<body>
+<div layout:fragment="content">
+
+<h1> Lista de productos 2018	</h1>
+	
+
+
+	
+	<div class="form-group">
+				<label for="exampleFormControlSelect2">Escoja un Almacen :</label> 
+				
+				<select	class="form-control" name="almacenes" id="almacenes"  >
+					<option th:value="0" th:text="----" ></option>
+					<option th:each="a: ${almacenes}" th:value="${a.AlmacenId}" th:text="${a.AlmacenNombre}"  ></option>
+				</select>
+				
+			</div>
+	
+	<table class="table table-bordered">
+		<thead  >
+			<tr>
+				<th scope="col">Codigo</th>
+				<th scope="col">Descripcion</th>
+				<th scope="col">Cantidad</th>
+				<th scope="col">PrecioTotal</th>
+				<th scope="col">Precio</th>
+				<th scope="col">Acciones</th>
+				
+			</tr>
+		</thead>
+		<tbody th:each="p,rowstate : ${productos}">
+			<tr>
+					<td th:text="${p.ProductoId}"/>
+					<td th:text="${p.ProductoDescripcion}"/>
+					<td th:text="${p.ProductoCantidad}"/>
+					<td th:text="${p.ProductoPrecioTotal}"/>
+					<td th:text="${p.ProductoPrecioUnitario}"/>
+					<td >
+					
+					<a th:href="@{/producto/mostrarfrm?id=__${p.ProductoId}__}">
+						<button type="button" class="btn btn-light">Editar</button>
+					</a>
+						<a th:href="@{/producto/eliminar?id=__${p.ProductoId}__}">
+							<button type="button" class="btn btn-danger">Eliminar</button>
+						</a>
+					</td >
+			</tr>
+		</tbody>
+	</table>
+	
+	<div th:if="${result == 1}" class="alert alert-success" role="alert">Se agrego correctamente!</div>
+		<div th:if="${result == 0}" class="alert alert-danger" role="alert">Error !</div>
+	
+	<a href="#" th:href="@{/producto/mostrarfrm?id=0}">
+		<button type="button" class="btn btn-primary btn-lg btn-block" >Nuevo Producto</button>
+	</a>
+
+
+
+	</div>
+
+</body>
+
+</html>
+
+

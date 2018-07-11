@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8" />
+<title>Listando Empleado</title>
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" />
+
+<link rel="icon" th:href="@{/img/favicon.ico}" />
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<h1>Lista de Empleados 2018</h1>
+	
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+			<th scope="col">Código</th>
+				<th scope="col">Nro Documento</th>
+				<th scope="col">Nombres</th>
+				<th scope="col">Apellidos</th>
+			</tr>
+		</thead>
+		<tbody th:each="e : ${empleados}" >
+			<tr>
+				<td th:text="${e.EmpleadoId}" />
+				<td th:text="${e.EmpleadoNroDocumento}" />
+				<td th:text="${e.EmpleadoNombre}" />
+				<td th:text="${e.EmpleadoApellido}" />
+							
+				
+<!-- 			 <td th:text="${a.AlmacenEstado}==${true}?'Activo':'No Activo'"  /> -->
+				<td>
+							<a th:href="@{/empleado/mostrarfrm?id=__${e.EmpleadoId}__} " >
+					<button type="button" class="btn btn-secondary">Editar</button> 	
+ 									</a>
+						<a th:href="@{/empleado/eliminar?id=__${e.EmpleadoId}__}">
+					<button type="button" class="btn btn-danger">Eliminar</button> 					
+					 </a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+		<div th:if="${result == 1}" class="alert alert-success" role="alert">Se agrego correctamente!</div>
+		<div th:if="${result == 0}" class="alert alert-danger" role="alert">Error !</div>
+
+		<a href="#" th:href="@{/empleado/mostrarfrm?id=0}">
+			<button type="button" class="btn btn-primary btn-lg btn-block">Registrar Nuevo Empleado</button>
+		</a>
+</div>
+
+	
+</body>
+</html>

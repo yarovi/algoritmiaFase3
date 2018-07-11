@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8" />
+<title>Agregar o Modificar Datos</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<form th:action="@{http://localhost:8080/cliente/agregarcliente}" th:object="${mdlcliente}"
+			method="post">
+			<input type="text" th:field="*{ClienteId}"></input>
+			<div class="form-group">
+				<label for="Nombre">Cliente</label> <input type="text"
+					class="form-control" placeholder="Tu nombre"
+					th:field="*{ClienteNombre}" th:value="${ClienteNombre}" />
+				<td th:if="${#fields.hasErrors('ClienteNombre')}"
+					th:errors="*{ClienteNombre}"></td>
+			</div>
+
+			<!-- 			<div class="form-group"> -->
+			<!-- 				<label for="Edad">Documento</label> <input type="text" -->
+			<!-- 					class="form-control" placeholder="0" th:field="*{ClienteDocumento}" -->
+			<!-- 					th:value="${ClienteDocumento}" /> -->
+			<!-- 				<td th:if="${#fields.hasErrors('ClienteDocumento')}" -->
+			<!-- 					th:errors="*{ClienteDocumento}"></td> -->
+			<!-- 			</div> -->
+			<div class="form-group">
+				<label for="exampleFormControlSelect2">Tipo Documento</label> <select
+					class="form-control" >
+					<option value="DNI">DNI</option>
+					<option value="RUC">RUC</option>
+					<option value="OTROS">OTROS</option>
+
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="Edad">Nro. Documento</label> <input type="text"
+					class="form-control" placeholder="0"
+					th:field="*{ClienteNroDocumento}" th:value="${ClienteNroDocumento}" />
+				<td th:if="${#fields.hasErrors('ClienteNroDocumento')}"
+					th:errors="*{ClienteNroDocumento}"></td>
+			</div>
+
+			<!-- 			<div class="form-group"> -->
+			<!-- 				<label for="Edad">Categoria</label> <input type="text" -->
+			<!-- 					class="form-control" placeholder="0" th:field="*{ClienteTipo}" -->
+			<!-- 					th:value="${ClienteTipo}" /> -->
+			<!-- 				<td th:if="${#fields.hasErrors('ClienteTipo')}" -->
+			<!-- 					th:errors="*{ClienteTipo}"></td> -->
+			<!-- 			</div> -->
+
+			<div class="form-group">
+				<label for="Edad">Categoria</label> <select
+					th:field="*{ClienteTipo}" class="form-control"
+					>
+					<option th:each="tipo :${categoriaTipo}" th:value="${tipo.codigo}"
+						th:text="${tipo.Nombre}" />
+				</select>
+				<!-- 				<td th:if="${#fields.hasErrors('ClienteTipo')}"	th:errors="*{ClienteTipo}"></td> -->
+			</div>
+
+
+			<div class="form-group">
+				<label for="Edad">Diercción</label> <input type="text"
+					class="form-control" placeholder="Tu dirección"
+					th:field="*{ClienteDireccion}" th:value="${ClienteDireccion}" />
+				<td th:if="${#fields.hasErrors('ClienteDireccion')}"
+					th:errors="*{ClienteDireccion}"></td>
+			</div>
+
+			<!-- 			<div class="form-group"> -->
+			<!-- 				<label for="Edad">Estado</label> <input type="text" -->
+			<!-- 					class="form-control" placeholder="0" th:field="*{ClienteEstado}" -->
+			<!-- 					th:value="${ClienteEstado}" /> -->
+			<!-- 				<td th:if="${#fields.hasErrors('ClienteEstado')}" -->
+			<!-- 					th:errors="*{ClienteEstado}"></td> -->
+			<!-- 			</div> -->
+
+			<div class="form-group">
+				<label for="exampleFormControlSelect2">Estado</label> <select
+					class="form-control" 
+					th:field="*{ClienteEstado}" th:value="${ClienteEstado}">
+					<option value="1">Activo</option>
+					<option value="0">Desactivo</option>
+				</select>
+			</div>
+
+			<div class="container col-xs-2">
+				<button type="submit" class="btn btn-primary">Aceptar</button>
+				<a th:href="@{http://localhost:8080/cliente/cancelar}">
+					<button type="button" class="btn btn-primary">Cancelar</button>
+				</a>
+
+			</div>
+
+		</form>
+		<br />
+
+	</div>
+
+
+
+</body>
+</html>
