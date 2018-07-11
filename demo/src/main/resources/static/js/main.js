@@ -87,7 +87,7 @@ function AgregarProductoaPedido() {
 		$('#contenidoModal').html("No hay disponibilidad para esa cantidad.")
 	} else {
 
-		$.post("/pedido/AgregarPedido", {
+		$.post("/pedido/AgregarNuevoPedido", {
 			codigoAlmacen : codigoAlmacenLocal,
 			codigoProducto : codigoProductoLocal,
 			pedidoCantidad : cantidadPedidoLocal
@@ -113,7 +113,7 @@ function EliminarItemPedido(elemento) {
 	$.post("/pedido/EliminarElementoPedido", {
 		iddetallePedido : elemento
 	}, function(data, responseText,status) {
-		alert("valor es" + status);
+		//alert("valor es" + status);
 		listarpedido();
 
 	});

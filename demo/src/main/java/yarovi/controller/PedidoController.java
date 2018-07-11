@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import yarovi.Service.AlmacenService;
 import yarovi.Service.DetallePedidoService;
+import yarovi.Service.EmpleadoService;
 import yarovi.Service.PedidoService;
 import yarovi.Service.ProductoService;
 import yarovi.entidad.Almacen;
@@ -48,20 +49,18 @@ public class PedidoController {
 	private ProductoService productoService;
 	@Autowired
 	private DetallePedidoService detallePedidoService;
+	@Autowired
+	private EmpleadoService empleadoService;
 	@GetMapping("/todo")
 	public ModelAndView todoAlmacen() {
 		
 		ModelAndView moc = new ModelAndView(RutaVista.vistaAllPedido);		
 		LOG.info("lista Pedido :" + pedidoService.obtenerTodoElemento());
 		moc.addObject("pedidos", pedidoService.obtenerTodoElemento());
+		
 		return moc;
 	}
-//	public ModelAndView Todo{
-//		ModelAndView moc = new ModelAndView(RutaVista.vistaFrmPedido);		
-//		LOG.info("lista Pedido :" + pedidoService.obtenerTodoElemento());
-//		moc.addObject("pedidos", pedidoService.obtenerTodoElemento());
-//		return moc;
-//	}
+
 	@GetMapping("/cancelar")
 	public String redirectCancelCliente() {
 		return "redirect:/pedido/todo";
@@ -75,6 +74,7 @@ public class PedidoController {
 		LOG.info("nuevo Alamacen :" + p);		
 		model.addAttribute("mdlpedido", p);
 		model.addAttribute("almacenes",almacenService.obtenerTodoElemento());
+		model.addAttribute("empleados",empleadoService.obtenerTodoElemento());
 		return RutaVista.vistaFrmPedido;
 	}
 	@PostMapping("/agregarpedido")

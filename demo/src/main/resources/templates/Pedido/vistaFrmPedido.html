@@ -20,12 +20,23 @@
 					<input type="text" class="form-control" placeholder="00000000"
 						id="NumeroDocumento" name="NumeroDocumento" />
 				</div>
-				<div class="col-md-8">
+				<div class="col-md-4">
 					<button type="button" class="btn btn-success"
 						onclick="BuscarClientexNroDocumento()">Buscar</button>
-					<button type="button" class="btn btn-secondary">Nuevo</button>
+<!-- 					<button type="button" class="btn btn-secondary">Nuevo</button> -->
 					<button type="button" class="btn btn-danger"
 						onclick="LimpiarDato()">Limpiar</button>
+				</div>
+				<div class="col-md-2">
+				
+					<label>Seleccione un Trabajador:</label>
+					</div>
+					<div class="col-md-2">
+					<select class="form-control row"
+							id="listaalmacenes">
+								<option th:each="e: ${empleados}" th:value="${e.EmpleadoId}"
+									th:text="${e.EmpleadoNombre}"></option>
+						</select>
 				</div>
 			</div>
 
@@ -160,10 +171,9 @@
 			</div>
 			<div class="container col-xs-2">
 				<button type="submit" class="btn btn-primary">Aceptar</button>
-<!-- 				<a th:href="@{http://localhost:8080/pedido/cancelar}"> -->
-					<button type="button" class="btn btn-primary"
-					onclick="listarpedido()">Recargar</button>
-<!-- 				</a> -->
+ 				<a th:href="@{http://localhost:8080/pedido/cancelar}"> 
+					<button type="button" class="btn btn-primary">Cancelar</button>
+ 				</a> 
 
 			</div>
 

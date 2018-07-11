@@ -1,5 +1,7 @@
 package yarovi.DAO;
 
+import static org.mockito.Matchers.anyInt;
+
 import java.text.DecimalFormat;
 
 import org.springframework.stereotype.Repository;
@@ -31,10 +33,9 @@ public class DetallePedidoDAO {
 			if (existeMismoProducto(entidad)) {
 
 				int posicion = listaPedido.indexOfProducto(entidad);
-				if (posicion > 0) {
+				if (posicion >= 0) {
 					DetallePedido pdt = listaPedido.get(posicion);
 					entidad = actualizarDatoPedido(entidad, pdt,false);
-					// entidad.setProducto(pdt.getProducto());
 					listaPedido.modify(entidad, posicion);
 					estadomodificacion = true;
 				}
@@ -105,11 +106,12 @@ public class DetallePedidoDAO {
 		 * calculamos los datos para el nuevo pedido
 		 *
 		 */
-		nuevoEntidad.setPrecioTotal(nuevoEntidad.getPrecioTotal() * nuevoEntidad.getCantidadPedido());
-		nuevoEntidad.setPrecioVenta(nuevoEntidad.getCantidadPedido() * nuevoEntidad.getCantidadPedido());
+		nuevoEntidad.setPrecioTotal(nuevoEntidad.getProducto().getProductoPrecioVenta() * nuevoEntidad.getCantidadPedido());
+		nuevoEntidad.setPrecioVenta(nuevoEntidad.getProducto().getProductoPrecioVenta() * nuevoEntidad.getCantidadPedido());
 		/*
 		 * actualizamos los datos con el pedido anterior
 		 */
+		nuevoEntidad.setCodigoDetallePedido(antPedido.getCodigoDetallePedido());
 		nuevoEntidad.setCantidadPedido(nuevoEntidad.getCantidadPedido() + antPedido.getCantidadPedido());
 		nuevoEntidad.setPrecioTotal(nuevoEntidad.getPrecioTotal() + antPedido.getPrecioTotal());
 		nuevoEntidad.setPrecioVenta(nuevoEntidad.getPrecioVenta() + antPedido.getPrecioVenta());
@@ -184,6 +186,8 @@ public class DetallePedidoDAO {
 		entidad.setLstCodigo(lsttemporal);
 		entidad.setCodigoDetallePedido(listaPedido.size() + 1);
 		entidad.setPrecioTotal(entidad.getCantidadPedido() * entidad.getProducto().getProductoPrecioVenta());
+		entidad.setPrecioVenta(entidad.getCantidadPedido() * entidad.getProducto().getProductoPrecioVenta());
+		
 		listaPedido.addLast(entidad);
 	}
 
