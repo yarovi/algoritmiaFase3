@@ -11,33 +11,22 @@ public class Nodo<T> {
         this.elemento = elemento;
         this.siguiente = siguiente;
     }
-
-    //Metodos
     public T getElemento() {
         return elemento;
     }
-
     public void setElemento(T elemento) {
         this.elemento = elemento;
     }
-
     public Nodo<T> getSiguiente() {
         return siguiente;
     }
-
     public void setSiguiente(Nodo<T> siguiente) {
         this.siguiente = siguiente;
     }
-
 	@Override
 	public String toString() {
 		return "Nodo [elemento=" + elemento  + "]";
 	}
-
-//    @Override
-//    public String toString() {
-//        return elemento + "\n";
-//    }
 
 	
 	

@@ -15,7 +15,7 @@ public class Cliente {
 	@NotNull
 	@Size(min=3,max=20)
 	private String ClienteNombre;
-	@NotNull
+	
 	private String ClienteDocumento;
 	@Size(min=8,max=10)
 	private String ClienteNroDocumento;
@@ -28,10 +28,7 @@ public class Cliente {
 		
 	public Cliente() {
 		// TODO Auto-generated constructor stub
-		ClienteId=0;
-		ClienteNombre="";
-		ClienteNroDocumento="";
-		ClienteDireccion="";
+		
 	}
 
 	public String getClienteNombre() {

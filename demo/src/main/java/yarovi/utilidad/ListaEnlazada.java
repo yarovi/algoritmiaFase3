@@ -1,10 +1,7 @@
 package yarovi.utilidad;
-
 import java.util.Iterator;
-
 import yarovi.entidad.DetallePedido;
 import yarovi.entidad.Producto;
-
 public class ListaEnlazada<T> implements Iterable<T> {
 
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,9 +28,6 @@ import yarovi.entidad.DetallePedido;
 import yarovi.utilidad.Categoria;
 import yarovi.utilidad.CategoriaCliente;
 import yarovi.utilidad.RutaVista;
-
-
-
 @Controller
 @RequestMapping("/cliente")
 public class ClienteController {
@@ -51,7 +49,8 @@ public class ClienteController {
 		return "redirect:/cliente/todo";
 	}
 	@GetMapping("/mostrarfrm")
-	public String redireccionCliente(@RequestParam(name = "id", required = false) int id, Model model) {
+	public String redireccionCliente(@RequestParam(name = "id", required = false) int id,
+			Model model) {
 		Cliente c = new Cliente();
 		if (id != 0) {
 			c = clienteService.buscarElemento(id);
@@ -61,7 +60,8 @@ public class ClienteController {
 		return RutaVista.vistaFrmCliente;
 	}
 	@PostMapping("/agregarcliente")
-	public  String AddredireccionCliente(@RequestParam(name="mdlcliente") Cliente cliente,BindingResult bindingResult,Model mdl) {
+	public  String AddredireccionCliente(@Valid @ModelAttribute(name="mdlcliente") Cliente cliente,
+			BindingResult bindingResult,Model mdl) {
 		String vistaRetorno="";		
 		LOG.info("valores :" + cliente.toString());
 		if (bindingResult.hasErrors()) {
