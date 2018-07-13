@@ -17,6 +17,12 @@ public class DetallePedidoDAO {
 	ListaEnlazada<Codigo> lsttemporal;
 	DetallePedido nombrePedido;
 
+	public ListaEnlazada<DetallePedido> retornarListaDetalle(){
+		return listaPedido;
+	}
+	public void vaciarLista() {
+		listaPedido = new ListaEnlazada<>();
+	}
 	public Iterable<DetallePedido> obtenerTodoElemento() {
 		return listaPedido;
 	}
@@ -205,6 +211,21 @@ public class DetallePedidoDAO {
 		String rpta = String.format("%.2f", respuesta);
 
 		return rpta;
+	}
+	
+	public int CalculoCantidadTotal() {
+
+		int respuesta = 0;
+		if (listaPedido.size() == 0) {
+			return 0;
+		} else {
+
+			for (DetallePedido dp : obtenerTodoElemento()) {
+				respuesta = respuesta + dp.getCantidadPedido();
+			}
+		}
+		
+		return respuesta;
 	}
 
 }

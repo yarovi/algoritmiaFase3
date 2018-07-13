@@ -31,7 +31,11 @@
 			<tr>
 				<td th:text="${p.PedidoCorrelativo}" />
 				<td th:text="${p.PedidoFecha}" />
-							
+				<td th:text="${p.PedidoEstado}" />
+				<td th:text="${p.PedidoNombreCliente}" />
+				<td th:text="${p.PedidoNombreVendedor}" />
+				<td th:text="${p.PedidoCantidad}" />
+				<td th:text="${p.PedidoTotal}" />			
 				
 <!-- 			 <td th:text="${a.AlmacenEstado}==${true}?'Activo':'No Activo'"  /> -->
 				<td>
@@ -45,12 +49,14 @@
 			</tr>
 		</tbody>
 	</table>
+		
+		<a href="#" th:href="@{http://localhost:8080/pedido/mostrarfrm?id=0}">
+			<button type="button" class="btn btn-primary btn-lg btn-block">Registrar Nuevo Pedido</button>
+		</a>
+		
 		<div th:if="${result == 1}" class="alert alert-success" role="alert">Se agrego correctamente!</div>
 		<div th:if="${result == 0}" class="alert alert-danger" role="alert">Error !</div>
-
-		<a href="#" th:href="@{http://localhost:8080/pedido/mostrarfrm?id=0}">
-			<button type="button" class="btn btn-primary btn-lg btn-block">Registrar Nuevo Almacen</button>
-		</a>
+		
 </div>
 
 	

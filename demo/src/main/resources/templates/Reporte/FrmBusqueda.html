@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8" />
+<title>Ordenar Datos de Pedidos</title>
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" />
+<link rel="icon" th:href="@{/img/favicon.ico}" />
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<h1>Ordenar Informes 2018</h1>
+
+
+
+
+		<div class="form-group">
+			<label for="exampleFormControlSelect2">Escoja un Modelo de
+				Ordenacion :</label> <select class="form-control" name="busquedatexto"
+				id="busquedatexto">
+				<option value="A">Knuth Morris Pratt (Busqueda)</option>
+				<option value="B">Boyer Moore (Busqueda)</option>
+			</select>
+
+		</div>
+
+
+		<div class="form-group">
+			<label for="exampleInputEmail1">Ingrese el nombre</label> <input
+				type="text" class="form-control" id="nombreBuscar" /> <small
+				class="form-text text-muted">El nombre que ingrese se
+				buscara en el archivo seleccionado.</small>
+		</div>
+		<div class="form-group">
+
+
+			<div class="form-group">
+				<label for="exampleFormControlFile1">Seleccione archivo</label> <input
+					type="file" class="form-control-file" id="rutaArchivoPlano" />
+			</div>
+			
+		</div>
+		<div >
+			<div class="form-group"  id="resultadoFinal">
+
+
+				Respuesta: <b id="resultado" />
+			</div>
+		</div>
+		<button type="button" class="btn btn-primary" onclick="BusquedaTexto()">Buscar</button>
+		<pre id="mostrartexto"></pre>
+	</div>
+</body>
+</html>

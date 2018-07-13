@@ -28,6 +28,10 @@ public class Cliente {
 		
 	public Cliente() {
 		// TODO Auto-generated constructor stub
+		ClienteId=0;
+		ClienteNombre="";
+		ClienteNroDocumento="";
+		ClienteDireccion="";
 	}
 
 	public String getClienteNombre() {

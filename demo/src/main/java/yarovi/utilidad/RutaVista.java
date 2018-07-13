@@ -18,5 +18,8 @@ public class RutaVista {
 	//Pedido
 	public static String vistaAllPedido="/Pedido/vistaAllPedido";
 	public static String vistaFrmPedido="/Pedido/vistaFrmPedido";
+	//reporte
+	public static String FrmReporte="/reporte/FrmReporte";
+	public static String FrmBusqueda="/reporte/FrmBusqueda";
 	
 }

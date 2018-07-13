@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import yarovi.utilidad.ListaEnlazada;
+
 public class Pedido {
 
 		private int PedidoId;
@@ -14,18 +16,55 @@ public class Pedido {
 			PedidoId = pedidoId;
 		}
 		private String PedidoCorrelativo;
-		private Date PedidoFecha;
+		private String PedidoFecha;
 		private String PedidoDireccionEntrega;
 		private Integer PedidoNroDiasRetraspo;
 		private Double PedidoPorcentajeDescuento;
-		private Empleado empleado;
-		private Cliente cliente; 
-		public Cliente getCliente() {
-			return cliente;
+		private Double PedidoTotal;
+		private String PedidoNombreCliente;
+		private String PedidoRucCliente;
+		private String PedidoNombreVendedor;
+		private String PedidoTipoCliente;
+		private int PedidoCantidad;		
+		
+				
+		public Double getPedidoTotal() {
+			return PedidoTotal;
 		}
-		public void setCliente(Cliente cliente) {
-			this.cliente = cliente;
+		public String getPedidoTipoCliente() {
+			return PedidoTipoCliente;
 		}
+		public void setPedidoTipoCliente(String pedidoTipoCliente) {
+			PedidoTipoCliente = pedidoTipoCliente;
+		}
+		public void setPedidoTotal(Double pedidoTotal) {
+			PedidoTotal = pedidoTotal;
+		}
+		public String getPedidoNombreCliente() {
+			return PedidoNombreCliente;
+		}
+		public void setPedidoNombreCliente(String pedidoNombreCliente) {
+			PedidoNombreCliente = pedidoNombreCliente;
+		}
+		public String getPedidoRucCliente() {
+			return PedidoRucCliente;
+		}
+		public void setPedidoRucCliente(String pedidoRucCliente) {
+			PedidoRucCliente = pedidoRucCliente;
+		}
+		public String getPedidoNombreVendedor() {
+			return PedidoNombreVendedor;
+		}
+		public void setPedidoNombreVendedor(String pedidoNombreVendedor) {
+			PedidoNombreVendedor = pedidoNombreVendedor;
+		}
+		public int getPedidoCantidad() {
+			return PedidoCantidad;
+		}
+		public void setPedidoCantidad(int pedidoCantidad) {
+			PedidoCantidad = pedidoCantidad;
+		}
+		
 		private String PedidoEstado;
 		public String getPedidoEstado() {
 			return PedidoEstado;
@@ -33,22 +72,17 @@ public class Pedido {
 		public void setPedidoEstado(String pedidoEstado) {
 			PedidoEstado = pedidoEstado;
 		}
-		private List<Producto> productos =new ArrayList<Producto>();
-		public Pedido(String pedidoCorrelativo, Date pedidoFecha, String pedidoDireccionEntrega,
-				Integer pedidoNroDiasRetraspo, Double pedidoPorcentajeDescuento, Empleado empleado,
-				List<Producto> productos) {
-			super();
-			PedidoCorrelativo = pedidoCorrelativo;
-			PedidoFecha = pedidoFecha;
-			PedidoDireccionEntrega = pedidoDireccionEntrega;
-			PedidoNroDiasRetraspo = pedidoNroDiasRetraspo;
-			PedidoPorcentajeDescuento = pedidoPorcentajeDescuento;
-			this.empleado = empleado;
-			this.productos = productos;
+		private ListaEnlazada<DetallePedido> detallePedido=new ListaEnlazada<>();
+
+		
+		public ListaEnlazada<DetallePedido> getDetallePedido() {
+			return detallePedido;
+		}
+		public void setDetallePedido(ListaEnlazada<DetallePedido> detallePedido) {
+			this.detallePedido = detallePedido;
 		}
 		public Pedido() {
-			super();
-			// TODO Auto-generated constructor stub
+			 
 		}
 		public String getPedidoCorrelativo() {
 			return PedidoCorrelativo;
@@ -56,10 +90,10 @@ public class Pedido {
 		public void setPedidoCorrelativo(String pedidoCorrelativo) {
 			PedidoCorrelativo = pedidoCorrelativo;
 		}
-		public Date getPedidoFecha() {
+		public String getPedidoFecha() {
 			return PedidoFecha;
 		}
-		public void setPedidoFecha(Date pedidoFecha) {
+		public void setPedidoFecha(String pedidoFecha) {
 			PedidoFecha = pedidoFecha;
 		}
 		public String getPedidoDireccionEntrega() {
@@ -80,25 +114,20 @@ public class Pedido {
 		public void setPedidoPorcentajeDescuento(Double pedidoPorcentajeDescuento) {
 			PedidoPorcentajeDescuento = pedidoPorcentajeDescuento;
 		}
-		public Empleado getEmpleado() {
-			return empleado;
-		}
-		public void setEmpleado(Empleado empleado) {
-			this.empleado = empleado;
-		}
-		public List<Producto> getProductos() {
-			return productos;
-		}
-		public void setProductos(List<Producto> productos) {
-			this.productos = productos;
-		}
 		@Override
 		public String toString() {
-			return "Pedido [PedidoCorrelativo=" + PedidoCorrelativo + ", PedidoFecha=" + PedidoFecha
-					+ ", PedidoDireccionEntrega=" + PedidoDireccionEntrega + ", PedidoNroDiasRetraspo="
-					+ PedidoNroDiasRetraspo + ", PedidoPorcentajeDescuento=" + PedidoPorcentajeDescuento + ", empleado="
-					+ empleado + ", productos=" + productos + "]";
+			return "Pedido [PedidoId=" + PedidoId + ", PedidoCorrelativo=" + PedidoCorrelativo + ", PedidoFecha="
+					+ PedidoFecha + ", PedidoDireccionEntrega=" + PedidoDireccionEntrega + ", PedidoNroDiasRetraspo="
+					+ PedidoNroDiasRetraspo + ", PedidoPorcentajeDescuento=" + PedidoPorcentajeDescuento
+					+ ", PedidoTotal=" + PedidoTotal + ", PedidoNombreCliente=" + PedidoNombreCliente
+					+ ", PedidoRucCliente=" + PedidoRucCliente + ", PedidoNombreVendedor=" + PedidoNombreVendedor
+					+ ", PedidoTipoCliente=" + PedidoTipoCliente + ", PedidoCantidad=" + PedidoCantidad
+					+ ", PedidoEstado=" + PedidoEstado + ", detallePedido=" + detallePedido + "]";
 		}
+		
+		
+
+		
 		
 		
 }

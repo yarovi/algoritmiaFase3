@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import yarovi.DAO.ClienteDAO;
 import yarovi.DAO.DetallePedidoDAO;
 import yarovi.entidad.DetallePedido;
+import yarovi.utilidad.ListaEnlazada;
 
 
 @Service
@@ -36,5 +37,14 @@ public class DetallePedidoService {
 	
 	public String CalculoTotalaPagar() {
 		return detallePedidoDAO.CalculoTotalaPagar();
+	}
+	public int CalculoCantidadTotal() {
+		return detallePedidoDAO.CalculoCantidadTotal();
+	}
+	public void vaciarLista() {
+		detallePedidoDAO.vaciarLista();
+	}
+	public ListaEnlazada<DetallePedido> retornarListaDetalle() {
+		return detallePedidoDAO.retornarListaDetalle();
 	}
 }

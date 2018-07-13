@@ -57,7 +57,7 @@ public class ClienteController {
 			c = clienteService.buscarElemento(id);
 		}
 		model.addAttribute("mdlcliente", c);
-		
+		LOG.info("nuevo cliente :" + c);	
 		return RutaVista.vistaFrmCliente;
 	}
 	@PostMapping("/agregarcliente")

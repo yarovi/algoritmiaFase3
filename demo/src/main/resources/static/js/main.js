@@ -9,9 +9,9 @@ function BuscarClientexNroDocumento() {
 		if (data["clienteId"] == 0) {
 			alert("No se encontro el documento.");
 		} else {
-			$('#nombrecliente').val(data["clienteNombre"]);
-			$('#direccionCliente').val(data["clienteDireccion"]);
-			$('#tipoCliente').val(data["clienteTipo"]);
+			$('#PedidoNombreCliente').val(data["clienteNombre"]);
+			$('#PedidoDireccionEntrega').val(data["clienteDireccion"]);
+			$('#PedidoTipoCliente').val(data["clienteTipo"]);
 		}
 
 	});
@@ -118,4 +118,60 @@ function EliminarItemPedido(elemento) {
 
 	});
 
+}
+
+$('#ordenacion').on('change',function(){
+	
+	var valor=$(this).val();
+	$("#tablaordenada").load("/reporte/Ordenar?tipoOrdenacion="+valor,$("#tablaordenada").serialize());
+});
+
+
+function BusquedaTexto(){
+	
+	var valor=$('#busquedatexto').val();
+	var nombreBuscar=$('#nombreBuscar').val();
+	var cadena=document.getElementById("mostrartexto").innerText
+	//alert(document.getElementById("mostrartexto").innerText);
+//	console.log(nombreBuscar  +" : "+ cadena + " tipo busqueda "+valor );
+//	
+	$.post("/reporte/BuscarTexto", {
+		tipoBusqueda : valor,
+		nombre : nombreBuscar,
+		formatoTexto : cadena
+	}, function(data, status) {
+
+		if(data!="-1")
+			{
+				$("#resultado").text(data);
+			}else{
+				$("#resultado").text("No se encontro ... :(");
+				
+			}
+				
+		console.log(data);
+	});
+	
+	};
+
+window.onload = function() {
+    var fileInput = document.getElementById('rutaArchivoPlano');
+    var fileDisplayArea = document.getElementById('mostrartexto');
+
+    fileInput.addEventListener('change', function(e) {
+    	var file = fileInput.files[0];
+		var textType = /text.*/;
+
+		if (file.type.match(textType)) {
+			var reader = new FileReader();
+			
+			reader.onload = function(e) {
+				fileDisplayArea.innerText = reader.result;
+			}
+
+			reader.readAsText(file,"ISO-8859-8");	
+		} else {
+			fileDisplayArea.innerText = "Formato no es correcto!"
+		}
+    });
 }

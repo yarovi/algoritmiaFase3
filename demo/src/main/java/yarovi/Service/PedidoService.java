@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import yarovi.DAO.PedidoDAO;
 import yarovi.entidad.Pedido;
+import yarovi.utilidad.ListaEnlazada;
 
 @Service
 public class PedidoService {
@@ -30,5 +31,17 @@ public class PedidoService {
 	public Pedido buscarElemento(int id) {
 		return pedidoDAO.buscarElemento(id);
 	}
-	
+	public int tamanio() {
+		return pedidoDAO.tamanio();
+	}
+//	public ListaEnlazada<Pedido> retornarListaPedido() {
+//		return pedidoDAO.retornarListaPedido();
+//	}
+	public ListaEnlazada<Pedido> getListaEnlazadaSimple() {
+		return pedidoDAO.getListaEnlazadaSimple();
+	}
+
+	public void setListaEnlazadaSimple(ListaEnlazada<Pedido> listaEnlazadaSimple) {
+		pedidoDAO.setListaEnlazadaSimple(listaEnlazadaSimple);
+	}
 }

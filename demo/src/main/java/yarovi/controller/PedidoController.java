@@ -1,6 +1,10 @@
 package yarovi.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -29,7 +33,9 @@ import yarovi.Service.EmpleadoService;
 import yarovi.Service.PedidoService;
 import yarovi.Service.ProductoService;
 import yarovi.entidad.Almacen;
+import yarovi.entidad.Cliente;
 import yarovi.entidad.DetallePedido;
+import yarovi.entidad.Empleado;
 import yarovi.entidad.Pedido;
 import yarovi.entidad.Producto;
 import yarovi.utilidad.ListaEnlazada;
@@ -38,7 +44,7 @@ import yarovi.utilidad.RutaVista;
 @Controller
 @RequestMapping("/pedido")
 public class PedidoController {
-	
+
 	private static final Log LOG = LogFactory.getLog(AlmacenController.class);
 
 	@Autowired
@@ -51,13 +57,14 @@ public class PedidoController {
 	private DetallePedidoService detallePedidoService;
 	@Autowired
 	private EmpleadoService empleadoService;
+
 	@GetMapping("/todo")
 	public ModelAndView todoAlmacen() {
-		
-		ModelAndView moc = new ModelAndView(RutaVista.vistaAllPedido);		
+
+		ModelAndView moc = new ModelAndView(RutaVista.vistaAllPedido);
 		LOG.info("lista Pedido :" + pedidoService.obtenerTodoElemento());
 		moc.addObject("pedidos", pedidoService.obtenerTodoElemento());
-		
+
 		return moc;
 	}
 
@@ -65,51 +72,73 @@ public class PedidoController {
 	public String redirectCancelCliente() {
 		return "redirect:/pedido/todo";
 	}
+
 	@GetMapping("/mostrarfrm")
 	public String redireccionCliente(@RequestParam(name = "id", required = false) int id, Model model) {
 		Pedido p = new Pedido();
 		if (id != 0) {
 			p = pedidoService.buscarElemento(id);
+			model.addAttribute("listaPedidos", p.getDetallePedido());
+		} else {
+			p.setPedidoCorrelativo(pedidoService.tamanio() + 1 + "");
+			SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+			p.setPedidoFecha(dtf.format(new Date()));
 		}
-		LOG.info("nuevo Alamacen :" + p);		
+		LOG.info("nuevo Alamacen :" + p);
 		model.addAttribute("mdlpedido", p);
-		model.addAttribute("almacenes",almacenService.obtenerTodoElemento());
-		model.addAttribute("empleados",empleadoService.obtenerTodoElemento());
+		model.addAttribute("almacenes", almacenService.obtenerTodoElemento());
+		model.addAttribute("empleados", empleadoService.obtenerTodoElemento());
+		
 		return RutaVista.vistaFrmPedido;
 	}
+
 	@PostMapping("/agregarpedido")
-	public  String AddredireccionAlmacen(@Valid @ModelAttribute(name="mdlpedido") Pedido pedido,BindingResult bindingResult,Model mdl) {
-		String vistaRetorno="";		
+	public String AddredireccionAlmacen(@Valid @ModelAttribute(name = "mdlpedido") Pedido pedido,
+			BindingResult bindingResult, Model mdl) {
+		String vistaRetorno = "";
 		LOG.info("valores :" + pedido.toString());
 		if (bindingResult.hasErrors()) {
-			vistaRetorno=RutaVista.vistaFrmPedido;
-		}else {
-			
-			vistaRetorno="redirect:/Pedido/todo";
-			if(null!=pedido) {
-				
-				if (pedido.getPedidoId()==0) {
+			vistaRetorno = RutaVista.vistaFrmPedido;
+		} else {
+
+			vistaRetorno = "redirect:/pedido/todo";
+			if (null != pedido) {
+
+				if (pedido.getPedidoId() == 0) {
+					
+					pedido.setDetallePedido(detallePedidoService.retornarListaDetalle());
+					pedido.setPedidoCantidad(detallePedidoService.CalculoCantidadTotal());
+					String FormatoMoneda=detallePedidoService.CalculoTotalaPagar();
+					FormatoMoneda=FormatoMoneda.replace(",",".");
+					pedido.setPedidoEstado("PENDIENTE");
+					pedido.setPedidoTotal(Double.valueOf(FormatoMoneda));
 					pedidoService.insertNuevoElementoFinal(pedido);
-				}else {
+				} else {
+					pedido.setDetallePedido(detallePedidoService.retornarListaDetalle());
+					pedido.setPedidoCantidad(detallePedidoService.CalculoCantidadTotal());
+					pedido.setPedidoTotal(Double.valueOf(detallePedidoService.CalculoTotalaPagar()));
 					pedidoService.editarReferenciaElemento(pedido);
 				}
-				
-				mdl.addAttribute("result",1);
-			}else {
-				mdl.addAttribute("result",0);
+
+				mdl.addAttribute("result", 1);
+				detallePedidoService.vaciarLista();
+			} else {
+				mdl.addAttribute("result", 0);
 			}
 		}
 		return vistaRetorno;
 	}
+
 	@GetMapping("/eliminar")
 	public ModelAndView EliminarCliente(@RequestParam(name = "id", required = true) int id) {
 		if (id != 0) {
 			Pedido a = pedidoService.buscarElemento(id);
 			pedidoService.eliminarElemento(a);
-		}		
+		}
 		return todoAlmacen();
 	}
-	//agregando pedido
+
+	// agregando pedido
 	@PostMapping(path = "/AgregarNuevoPedido", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Iterable<DetallePedido> AgregarPedido(
@@ -124,28 +153,27 @@ public class PedidoController {
 		LOG.info("lista Pedido :" + detallePedidoService.obtenerTodoElemento());
 		return detallePedidoService.obtenerTodoElemento();
 	}
+
 	@PostMapping(path = "/EliminarElementoPedido")
-		public ResponseEntity EliminarElementoPedido(
+	public ResponseEntity EliminarElementoPedido(
 			@RequestParam(name = "iddetallePedido", required = false) int iddetallePedido) {
-	
+
 		if (iddetallePedido != 0) {
 			DetallePedido a = detallePedidoService.buscarElemento(iddetallePedido);
 			detallePedidoService.eliminarElemento(a);
 			return new ResponseEntity(HttpStatus.OK);
-		}		
+		}
 		return new ResponseEntity(HttpStatus.BAD_REQUEST);
-	} 
-	
+	}
+
 	@GetMapping(path = "/ListarTodoPedido2")
-		public  String  ListarTodoPedido2(Model mdl) {
-		
-		String cadena="";
-		mdl.addAttribute("listaPedidos",detallePedidoService.obtenerTodoElemento());	
-		mdl.addAttribute("pagoTotal",detallePedidoService.CalculoTotalaPagar());
+	public String ListarTodoPedido2(Model mdl) {
+
+		String cadena = "";
+		mdl.addAttribute("listaPedidos", detallePedidoService.obtenerTodoElemento());
+		mdl.addAttribute("pagoTotal", detallePedidoService.CalculoTotalaPagar());
 		LOG.info("formato texo  :" + cadena);
 		return "pedido/vistaFrmPedido :: listaPedidos";
 	}
-	
 
-	
 }

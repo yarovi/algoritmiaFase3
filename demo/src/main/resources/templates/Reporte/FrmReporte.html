@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout">
+<head>
+<meta charset="UTF-8" />
+<title>Ordenar Datos de Pedidos</title>
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" />
+
+<link rel="icon" th:href="@{/img/favicon.ico}" />
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<h1>Ordenar Informes 2018</h1>
+
+
+
+
+		<div class="form-group">
+			<label for="exampleFormControlSelect2">Escoja un Modelo de
+				Ordenacion :</label> <select class="form-control" name="ordenacion"
+				id="ordenacion">
+				<option value="A">Ordenar Por Cliente (Burbuja)</option>
+				<option value="B">Ordenar Vendedor (Insercion Directa)</option>
+			</select>
+
+		</div>
+		<div th:fragment="listaordenada">
+		<div id="tablaordenada">
+			<table class="table table-hover" >
+				<thead>
+					<tr>
+						<th scope="col">Código</th>
+						<th scope="col">Fecha</th>
+						<th scope="col">Estado Pedido</th>
+						<th scope="col">Cliente</th>
+						<th scope="col">Vendedor</th>
+						<th scope="col">Cantidad</th>
+						<th scope="col">Total</th>
+
+					</tr>
+				</thead>
+				<tbody th:each="p : ${listaordenada}">
+					<tr>
+						<td th:text="${p.PedidoCorrelativo}" />
+						<td th:text="${p.PedidoFecha}" />
+						<td th:text="${p.PedidoEstado}" />
+						<td th:text="${p.PedidoNombreCliente}" />
+						<td th:text="${p.PedidoNombreVendedor}" />
+						<td th:text="${p.PedidoCantidad}" />
+						<td th:text="${p.PedidoTotal}" />
+					</tr>
+				</tbody>
+			</table>
+
+</div>
+		</div>
+	</div>
+</body>
+</html>

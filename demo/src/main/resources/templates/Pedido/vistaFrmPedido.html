@@ -18,7 +18,7 @@
 				</div>
 				<div class="col-md-2">
 					<input type="text" class="form-control" placeholder="00000000"
-						id="NumeroDocumento" name="NumeroDocumento" />
+						id="NumeroDocumento" />
 				</div>
 				<div class="col-md-4">
 					<button type="button" class="btn btn-success"
@@ -32,10 +32,9 @@
 					<label>Seleccione un Trabajador:</label>
 					</div>
 					<div class="col-md-2">
-					<select class="form-control row"
-							id="listaalmacenes">
-								<option th:each="e: ${empleados}" th:value="${e.EmpleadoId}"
-									th:text="${e.EmpleadoNombre}"></option>
+					<select class="form-control row" th:field="*{PedidoNombreVendedor}" >
+								<option th:value="0" th:text="----"></option>
+								<option th:each="PedidoNombreVendedor: ${empleados}" th:value="${PedidoNombreVendedor.EmpleadoNombre}" th:text="${PedidoNombreVendedor.EmpleadoNombre}" ></option>
 						</select>
 				</div>
 			</div>
@@ -44,7 +43,7 @@
 			<div class="form-row">
 				<div class="form-group col-md-2">
 					<label for="inputCity">Fecha</label> <input type="text"
-						class="form-control"
+						class="form-control" th:field="*{PedidoFecha}"
 						th:value="${#calendars.format(#calendars.createNow(), 'dd MMMM yyyy')}" />
 				</div>
 				<div class="form-group col-md-4">
@@ -62,22 +61,22 @@
 				</div>
 				<div class="form-group col-md-2">
 					<label for="inputZip">Correlativo</label> <input type="text"
-						class="form-control" readonly=""></input>
+					th:field="*{PedidoCorrelativo}" th:value="${PedidoCorrelativo}"	class="form-control" ></input>
 				</div>
 			</div>
 
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="inputCity">Nombre</label> <input type="text"
-						id="nombrecliente" name="nombre" class="form-control" />
+					th:field="*{PedidoNombreCliente}"	th:value="${PedidoNombreCliente}"	 class="form-control" />
 				</div>
 				<div class="form-group col-md-4">
 					<label for="inputState">Direccion</label> <input type="text"
-						id="direccionCliente" class="form-control" />
+						th:field="*{PedidoDireccionEntrega}" th:value="${PedidoDireccionEntrega}" class="form-control" />
 				</div>
 				<div class="form-group col-md-2">
 					<label for="inputZip">Tipo</label> <input type="text"
-						id="tipoCliente" class="form-control" />
+						th:field="*{PedidoTipoCliente}" th:value="${PedidoTipoCliente}" class="form-control" />
 				</div>
 			</div>
 
@@ -148,12 +147,7 @@
 								<td th:text="${item.cantidadPedido}" />
 								<td th:text="${item.precioVenta}" />
 								<td th:text="${#numbers.formatDecimal(item.precioTotal,0,2)}" />
-<!-- 								 <p th:with="pagoTotal=${pagoTotal *3}"> </p>   -->
 
-									<!-- 								<p th:with="pagoTotal=${#aggregates.sum(listaPedidos.![precioTotal])}" /> -->
-								
-							
-<!-- 								<p th:text="${pagoTotal}"></p> -->
 							</tr>
 							
 						</tbody>
@@ -163,7 +157,7 @@
 					<h2>
 <label class="font-weight-bold">Total :</label>
 			
-				<b th:text="${pagoTotal}" />
+				<b th:text="${pagoTotal}" th:value="${PedidoTotal}"  th:field="*{PedidoTotal}" />
 				</h2>
 				</div>
 				</div>
@@ -176,6 +170,10 @@
  				</a> 
 
 			</div>
+
+<div th:if="${result == 1}" class="alert alert-success" role="alert">Se agrego correctamente!</div>
+		<div th:if="${result == 0}" class="alert alert-danger" role="alert">Surgieron prolemas!</div>
+
 
 		</form>
 		<br />

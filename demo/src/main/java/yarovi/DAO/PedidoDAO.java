@@ -8,42 +8,55 @@ import yarovi.utilidad.ListaEnlazada;
 @Repository
 public class PedidoDAO {
 
-ListaEnlazada<Pedido> listaEnlazadaSimple = new ListaEnlazada<Pedido>();
+	ListaEnlazada<Pedido> listaEnlazadaSimple = new ListaEnlazada<Pedido>();
+
 	
-	public Iterable<Pedido> obtenerTodoElemento()
-	{
+	public ListaEnlazada<Pedido> getListaEnlazadaSimple() {
 		return listaEnlazadaSimple;
-	}	
-	public Pedido insertNuevoElementoFinal(Pedido entidad)
-	{
-		entidad.setPedidoId(listaEnlazadaSimple.size()+1);
+	}
+
+	public void setListaEnlazadaSimple(ListaEnlazada<Pedido> listaEnlazadaSimple) {
+		this.listaEnlazadaSimple = listaEnlazadaSimple;
+	}
+
+//	public ListaEnlazada<Pedido> retornarListaPedido() {
+//		return listaEnlazadaSimple;
+//	}
+
+	public Iterable<Pedido> obtenerTodoElemento() {
+		return listaEnlazadaSimple;
+	}
+
+	public Pedido insertNuevoElementoFinal(Pedido entidad) {
+		entidad.setPedidoId(listaEnlazadaSimple.size() + 1);
 		listaEnlazadaSimple.addLast(entidad);
 		return entidad;
 	}
 
-	public int tamanio()
-	{return listaEnlazadaSimple.size();}
-	
-	public boolean eliminarElemento(Pedido entidad)
-	{
-		int posicion=listaEnlazadaSimple.indexOf(entidad);
-		Pedido tmp= listaEnlazadaSimple.remove(posicion);
-		if(tmp !=null)
+	public int tamanio() {
+		return listaEnlazadaSimple.size();
+	}
+
+	public boolean eliminarElemento(Pedido entidad) {
+		int posicion = listaEnlazadaSimple.indexOf(entidad);
+		Pedido tmp = listaEnlazadaSimple.remove(posicion);
+		if (tmp != null)
 			return true;
 		return false;
 	}
+
 	public boolean editarReferenciaElemento(Pedido entidad) {
-	
-		Pedido tmp= listaEnlazadaSimple.modify(entidad, entidad.getPedidoId()-1);
-		if(tmp !=null)
+
+		Pedido tmp = listaEnlazadaSimple.modify(entidad, entidad.getPedidoId() - 1);
+		if (tmp != null)
 			return true;
 		return false;
-		
+
 	}
-	public Pedido buscarElemento(int id)
-	{
-		Pedido a= listaEnlazadaSimple.get(id-1);
+
+	public Pedido buscarElemento(int id) {
+		Pedido a = listaEnlazadaSimple.get(id - 1);
 		return a;
 	}
-	
+
 }

@@ -8,6 +8,7 @@ public class DetallePedido {
 	private int cantidadPedido;
 	private double precioTotal;
 	private double precioVenta;
+	
 	public double getPrecioVenta() {
 		return precioVenta;
 	}

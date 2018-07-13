@@ -94,6 +94,19 @@ private static final Log LOG = LogFactory.getLog(EmpleadoController.class);
 		empleadoService.insertNuevoElementoFinal(e);
 		empleadoService.insertNuevoElementoFinal(e2);
 		
+		Empleado e3= new Empleado();
+		e3.setEmpleadoNombre("Ximena");
+		e3.setEmpleadoApellido("Prada");
+		e3.setEmpleadoNroDocumento("22222222");
+		e3.setEmpleadoDocumento("DNI");
+		empleadoService.insertNuevoElementoFinal(e3);
+		Empleado e4= new Empleado();
+		e4.setEmpleadoNombre("Andrea");
+		e4.setEmpleadoApellido("Carrillo");
+		e4.setEmpleadoNroDocumento("55555555");
+		e4.setEmpleadoDocumento("DNI");
+		empleadoService.insertNuevoElementoFinal(e4);
+		
 	}
 	
 	
